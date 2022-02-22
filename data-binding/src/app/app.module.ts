@@ -3,20 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CursosModule } from './cursos/cursos.module';
-import { MyFirstComponent } from './my-first/my-first.component';
-import { MyFirst2Component } from './my-first2/my-first2.component';
+import { DataBindingComponent } from './data-binding/data-binding.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MyFirstComponent,
-    MyFirst2Component
+    DataBindingComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    CursosModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
