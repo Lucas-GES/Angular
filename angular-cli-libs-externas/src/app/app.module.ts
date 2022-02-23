@@ -5,12 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedComponent } from './shared/shared.component';
 import { DiretivaNgifComponent } from './diretiva-ngif/diretiva-ngif.component';
+import { DiretivaNgswitchComponent } from './diretiva-ngswitch/diretiva-ngswitch.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SharedComponent,
-    DiretivaNgifComponent
+    DiretivaNgifComponent,
+    DiretivaNgswitchComponent
   ],
   imports: [
     BrowserModule,
