@@ -1,3 +1,6 @@
-<p>App Works</p>
+<!-- <p>App Works</p>
 <app-data-binding></app-data-binding>
-<router-outlet></router-outlet>
+<router-outlet></router-outlet> -->
+<app-ciclo [valorInicial] = "valor" *ngIf="!deletarCiclo"></app-ciclo>
+<button (click)="mudarValor()">Mudar Valor</button>
+<button (click)="destruirCiclo()">Deletar</button>
