@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MaterializeButtonModule, MaterializeCardModule } from 'materialize-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,9 +16,7 @@ import { CursosComponent } from './cursos/cursos.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    MaterializeButtonModule,
-    MaterializeCardModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
