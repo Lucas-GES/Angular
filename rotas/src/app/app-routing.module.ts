@@ -9,6 +9,7 @@ import { CursosGuard } from './guard/cursos.guard';
 //import { CursosComponent } from './cursos/cursos.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada/pagina-nao-encontrada.component';
 
 const routes: Routes = [
   { path: 'cursos', 
@@ -27,7 +28,9 @@ const routes: Routes = [
   //{ path: 'curso/:id', component: CursoDetalheComponent},
   { path: 'login', component: LoginComponent},
   //{ path: 'naoEncontrado', component: CursoNaoEncontradoComponent},
-  { path: '', component: HomeComponent, canActivate: [AuthGuard]}
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: '', redirectTo: '/home', pathMatch: 'full'},
+  { path: '**', component: PaginaNaoEncontradaComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
