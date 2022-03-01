@@ -46,7 +46,7 @@
                 <label for="cep" class="control-label">CEP</label>
                 <input type="text" class="form-control" id="cep"
                     name="cep" ngModel required #cep="ngModel" [ngClass]="aplicaCssErro(cep)"
-                    (blur)="consultaCEP(cep.value)">
+                    (blur)="consultaCEP(cep.value, f)">
                 <div *ngIf="!cep.valid && cep.touched"
                     class="alert alert-danger" role="alert">
                     CEP é obrigatório.
@@ -76,8 +76,7 @@
                 </div>    
             
                 <input type="text" class="form-control" name="rua" 
-                id="rua" [(ngModel)]="usuario.rua"
-                required #rua="ngModel" [ngClass]="aplicaCssErro(rua)" readonly>
+                id="rua" ngModel required #rua="ngModel" [ngClass]="aplicaCssErro(rua)" readonly>
                 <div *ngIf="!rua.valid && rua.touched"
                     class="alert alert-danger" role="alert">
                     Rua é obrigatório.
