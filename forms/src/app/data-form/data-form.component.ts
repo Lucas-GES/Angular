@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs';
 import { EstadoBr } from '../shared/models/estado-br';
+import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class DataFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder, 
     private http: HttpClient,
-    private dropDownService: DropdownService) { }
+    private dropDownService: DropdownService,
+    private cepService: ConsultaCepService) { }
 
   ngOnInit(){    
     this.dropDownService.getEstadosBr()
@@ -51,7 +53,7 @@ export class DataFormComponent implements OnInit {
     console.log(this.formulario);
     if(this.formulario.valid){
       this.http.post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
-      .pipe(map(res => res)).subscribe(dados => {
+      .subscribe(dados => {
         //console.log(dados)
         // this.formulario.reset();
         //this.resetar();
@@ -100,29 +102,19 @@ export class DataFormComponent implements OnInit {
 
     let cep = this.formulario.get('endereco.cep')?.value;
 
-    cep = cep.replace(/\D/g, '');
-
-    if(cep != null && cep !== ""){
-      //Expressão regular para validar o CEP.
-      let validacep = /^[0-9]{8}$/;
-
-      //Valida o formato do CEP.
-      if(validacep.test(cep)) {
-
-        this.resetaDadosForm();
-        
-        this.http.get(`//viacep.com.br/ws/${cep}/json/`)
-        .pipe(map((dados: any) => dados)).subscribe(dados => this.populaDadosForm(dados))
-      }
+    if(cep != null && cep !== ''){
+      this.cepService.consultaCEP(cep)?.
+      subscribe(dados => this.populaDadosForm(dados));
     }
+
   }
 
   populaDadosForm(dados: any){
    
     this.formulario.patchValue({
-      endereço: {
-        rua: dados.logradouro,
-        //cep: dados.cep,        
+      endereco: {
+        cep: dados.cep,
+        rua: dados.logradouro,                
         complemento: dados.complemento,
         bairro: dados.bairro,
         cidade: dados.localidade,
