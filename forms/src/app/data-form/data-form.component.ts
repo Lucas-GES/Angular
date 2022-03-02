@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { map } from 'rxjs';
+import { EstadoBr } from '../shared/models/estado-br';
+import { DropdownService } from '../shared/services/dropdown.service';
 
 @Component({
   selector: 'app-data-form',
@@ -11,10 +13,16 @@ import { map } from 'rxjs';
 export class DataFormComponent implements OnInit {
 
   formulario!: FormGroup;
+  estados!: EstadoBr[];
 
-  constructor(private formBuilder: FormBuilder, private http: HttpClient) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private http: HttpClient,
+    private dropDownService: DropdownService) { }
 
-  ngOnInit(){
+  ngOnInit(){    
+    this.dropDownService.getEstadosBr()
+      .subscribe(dados => {this.estados = dados; console.log(dados);});
 
     // this.formulario = new FormGroup({
     //   nome: new FormControl(null),
@@ -35,6 +43,7 @@ export class DataFormComponent implements OnInit {
         estado: [null, Validators.required]
       })        
     });
+
 
   }
 
@@ -93,7 +102,7 @@ export class DataFormComponent implements OnInit {
 
     cep = cep.replace(/\D/g, '');
 
-    if(cep != null && cep != ""){
+    if(cep != null && cep !== ""){
       //Expressão regular para validar o CEP.
       let validacep = /^[0-9]{8}$/;
 
