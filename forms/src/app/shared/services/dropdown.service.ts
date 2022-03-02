@@ -30,4 +30,11 @@ export class DropdownService {
       { nome: 'angular', desc: 'Angular'}
     ]
   }
+
+  getNewsletter(){
+    return [
+      { valor: 's', desc: 'Sim'},
+      { valor: 'n', desc: 'Não'}
+    ]
+  }
 }
