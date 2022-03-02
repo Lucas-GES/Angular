@@ -30,9 +30,13 @@ export class TemplateFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  aplicaCssErro(campo: { valid: any; touched: any; }){
-    return { 'is-valid': campo.valid && campo.touched,
-            'is-invalid': !campo.valid && campo.touched}
+  verificaValidTouched(campo: any){
+    return !campo.valid && campo.touched;
+  }
+
+  aplicaCssErro(campo:any){
+    return { 'has-erro': this.verificaValidTouched(campo),
+            'has-feedback': this.verificaValidTouched(campo)}
   }
 
   consultaCEP(cep: any, form: any){
