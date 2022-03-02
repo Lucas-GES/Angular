@@ -71,4 +71,51 @@ export class DataFormComponent implements OnInit {
       'has-feedback': this.verificaValidTouched(campo)}
   }
 
+  consultaCEP(){
+
+    let cep = this.formulario.get('endereco.cep')?.value;
+
+    cep = cep.replace(/\D/g, '');
+
+    if(cep != null && cep != ""){
+      //Expressão regular para validar o CEP.
+      let validacep = /^[0-9]{8}$/;
+
+      //Valida o formato do CEP.
+      if(validacep.test(cep)) {
+
+        this.resetaDadosForm();
+        
+        this.http.get(`//viacep.com.br/ws/${cep}/json/`)
+        .pipe(map((dados: any) => dados)).subscribe(dados => this.populaDadosForm(dados))
+      }
+    }
+  }
+
+  populaDadosForm(dados: any){
+   
+    this.formulario.patchValue({
+      endereço: {
+        rua: dados.logradouro,
+        //cep: dados.cep,        
+        complemento: dados.complemento,
+        bairro: dados.bairro,
+        cidade: dados.localidade,
+        estado: dados.uf
+      }
+    });
+  }
+
+  resetaDadosForm(){
+    this.formulario.patchValue({
+      endereço: {
+        rua: null,      
+        complemento: null,
+        bairro: null,
+        cidade: null,
+        estado: null
+      }
+    });
+  }
+
 }
