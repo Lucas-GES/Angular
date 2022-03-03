@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Cidade } from '../models/cidade';
 import { EstadoBr } from '../models/estado-br';
 
 @Injectable({
@@ -11,6 +12,10 @@ export class DropdownService {
 
   getEstadosBr(){
     return this.http.get<EstadoBr[]>('assets/dados/estadosbr.json').pipe();
+  }
+
+  getCidades(idEstado: number){
+    return this.http.get<Cidade[]>('assets/dados/cidades.json').pipe();
   }
 
   getCargos(){

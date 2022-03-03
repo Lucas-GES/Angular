@@ -15,13 +15,13 @@ import { InputFieldComponent } from './input-field/input-field.component';
     FormDebugComponent,
     CampoControlErroComponent,
     ErrorMsgComponent,
-    InputFieldComponent
+    InputFieldComponent    
   ],
   exports: [
     FormDebugComponent,
     CampoControlErroComponent,
     ErrorMsgComponent,
-    InputFieldComponent
+    InputFieldComponent 
     ],
   imports: [
     CommonModule,
