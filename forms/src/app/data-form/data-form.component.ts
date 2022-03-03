@@ -7,6 +7,7 @@ import { FormValidations } from '../shared/form-validations';
 import { EstadoBr } from '../shared/models/estado-br';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
+import { VerificaEmailService } from './services/verifica-email.service';
 
 @Component({
   selector: 'app-data-form',
@@ -29,9 +30,12 @@ export class DataFormComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private http: HttpClient,
     private dropDownService: DropdownService,
-    private cepService: ConsultaCepService) { }
+    private cepService: ConsultaCepService,
+    private verificaEmailService: VerificaEmailService) { }
 
-  ngOnInit(){    
+  ngOnInit(){ 
+    
+    //this.verificaEmailService.verificaEmail('').subscribe();
 
     this.estados = this.dropDownService.getEstadosBr();
 
@@ -50,10 +54,11 @@ export class DataFormComponent implements OnInit {
 
     this.formulario = this.formBuilder.group({
       nome: [null, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email], [this.validarEmail.bind(this)]],
+      confirmarEmail: [null, [FormValidations.equalsTo('email')]],
       
       endereco: this.formBuilder.group({
-        cep: [null, Validators.required],
+        cep: [null, [Validators.required, FormValidations.cepValidator]],
         numero: [null, Validators.required],
         complemento: [null],
         rua: [null, Validators.required],
@@ -128,6 +133,10 @@ export class DataFormComponent implements OnInit {
     return !this.formulario.get(campo)?.valid && (!!this.formulario.get(campo)?.touched || !!this.formulario.get(campo)?.dirty) 
   }
 
+  verificaRequired(campo: any){
+    return !this.formulario.get(campo)?.hasError('required') && (!!this.formulario.get(campo)?.touched || !!this.formulario.get(campo)?.dirty) 
+  }
+
   verificaEmailInvalido(){
     let campoEmail = this.formulario.get('email');
     if(campoEmail?.errors){
@@ -189,6 +198,11 @@ export class DataFormComponent implements OnInit {
 
   setarTecnologia(){
     this.formulario.get('tecnologias')?.setValue(['java', 'php', 'angular']);
+  }
+
+  validarEmail(formControl: FormControl){
+    return this.verificaEmailService.verificaEmail(formControl.value)
+    .pipe(map(emailExiste => emailExiste ? { emailInvalido: true } : null));
   }
 
 }
