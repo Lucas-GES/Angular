@@ -48,12 +48,12 @@ export class CursosListaComponent implements OnInit {
        })
      );
 
-     this.service.list().subscribe(
-       dados => {console.log(dados);
-       },
-      //  error => console.error(error),
-      //  () => console.log('Observable completo')
-     );
+    //  this.service.list().subscribe(
+    //    dados => {console.log(dados);
+    //    },
+    //    error => console.error(error),
+    //    () => console.log('Observable completo')
+    //  );
   }
 
   handleError(){
@@ -64,3 +64,4 @@ export class CursosListaComponent implements OnInit {
   }
 
 }
+//json-server --watch db.json
