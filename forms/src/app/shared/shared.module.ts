@@ -15,7 +15,7 @@ import { InputFieldComponent } from './input-field/input-field.component';
     FormDebugComponent,
     CampoControlErroComponent,
     ErrorMsgComponent,
-    InputFieldComponent    
+    InputFieldComponent,    
   ],
   exports: [
     FormDebugComponent,
@@ -27,7 +27,7 @@ import { InputFieldComponent } from './input-field/input-field.component';
     CommonModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [ DropdownService ]
 })

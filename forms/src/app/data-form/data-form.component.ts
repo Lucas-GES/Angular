@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { empty } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { distinctUntilChanged, map, Observable, switchMap, tap } from 'rxjs';
 import { BaseFormComponent } from '../shared/base-form/base-form.component';
 import { FormValidations } from '../shared/form-validations';
+import { Cidade } from '../shared/models/cidade';
 import { EstadoBr } from '../shared/models/estado-br';
 import { ConsultaCepService } from '../shared/services/consulta-cep.service';
 import { DropdownService } from '../shared/services/dropdown.service';
@@ -19,8 +21,9 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
   
   //formulario!: FormGroup;
   // estados!: EstadoBr[];
-  // estados!: EstadoBr[];
-  estados!: Observable<EstadoBr[]>;
+  estados!: EstadoBr[];
+  cidades!: Cidade[];
+  //estados!: Observable<EstadoBr[]>;
   cargos!: any[];
   tecnologias!: any[];
   newsletterOp!: any[];
@@ -36,11 +39,13 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
       super();
     }
 
-  ngOnInit(){ 
+  override ngOnInit(){ 
     
     //this.verificaEmailService.verificaEmail('').subscribe();
 
-    this.estados = this.dropDownService.getEstadosBr();
+    //this.estados = this.dropDownService.getEstadosBr();
+    this.dropDownService.getEstadosBr()
+      .subscribe(dados => this.estados = dados);
 
     this.cargos = this.dropDownService.getCargos();
     this.tecnologias = this.dropDownService.getTecnologias();
@@ -80,15 +85,25 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     this.formulario.get('endereco.cep')?.statusChanges
     .pipe(
       distinctUntilChanged(),
-      tap((value: any) => console.log('valor CEP: ', value)),
+      tap(value => console.log('valor CEP: ', value)),
       switchMap(status => status === 'VALID' ?
         this.cepService.consultaCEP(this.formulario.get('endereco.cep')?.value)
-        : empty()
+        : EMPTY)
+      ).subscribe(dados => dados ? this.populaDadosForm(dados) : {});
+    
+    
+    
+    this.formulario.get('endereco.estado')?.valueChanges
+      .pipe(
+        tap(estado => console.log('Novo estado: ', estado)),
+        map(estado = this.estados.filter(e => e.sigla === estado)),
+        map(estados => estados && estados.length > 0 ? estados[0].id : EMPTY),
+        switchMap((estadoId) => this.dropDownService.getCidades(estadoId)),
+        tap(console.log)
       )
-    )
-    .subscribe(dados => dados ? this.populaDadosForm(dados) : {});
-      
-    this.dropDownService.getCidades(8).subscribe();
+      .subscribe((cidades: Cidade[]) => this.cidades = cidades);
+
+    //this.dropDownService.getCidades(8).subscribe();
   }
 
   buildFrameworks(){
@@ -115,22 +130,25 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
 
     console.log(valueSubmit);
 
-    this.http.post('https://httpbin.org/post', JSON.stringify(valueSubmit))
+    this.http.post('https://httpbin.org/post', JSON.stringify({}))
       .subscribe(dados => {
-        console.log(dados)
-        // this.formulario.reset();
-        //this.resetar();
+        console.log(dados);
+        // next: (res) => console.log(res),
+        // error: (e) => alert('erro'),
+        // complete: () => this.formulario.reset()
       },
-      (error: any) => alert('erro'));
+      (error: any) => alert('erro')  
+    );
+      
     
   }
 
   consultaCEP(){
 
-    let cep = this.formulario.get('endereco.cep')?.value;
+    const cep = this.formulario.get('endereco.cep')?.value;
 
     if(cep != null && cep !== ''){
-      this.cepService.consultaCEP(cep)?.
+      this.cepService.consultaCEP(cep).
       subscribe(dados => this.populaDadosForm(dados));
     }
 

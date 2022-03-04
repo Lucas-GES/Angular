@@ -16,8 +16,10 @@ const INPUT_FIELD_VALUE_ACCESSOR: any = {
 export class InputFieldComponent implements ControlValueAccessor {
 
   @Input() classeCss: any;
-  @Input() id: string = '';
-  @Input() label: string = '';
+  @Input()
+  id!: string;
+  @Input()
+  label!: string;
   @Input() type = 'text';
   @Input() control: any;
   @Input() isReadOnly = false;
@@ -39,13 +41,10 @@ export class InputFieldComponent implements ControlValueAccessor {
   onTouchedCb: (_: any) => void = () => {};
 
   writeValue(v: any): void {
-    if(v !== this.innerValue){
-      this.innerValue = v;
-      this.onChangeCb(v);
-    }
+    this.value = v;
   }
   registerOnChange(fn: any): void {
-    this.onChangeCb = fn
+    this.onChangeCb = fn;
   }
   registerOnTouched(fn: any): void {
     this.onTouchedCb = fn;

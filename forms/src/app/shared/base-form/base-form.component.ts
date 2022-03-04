@@ -5,11 +5,12 @@ import { FormArray, FormGroup } from '@angular/forms';
   selector: 'app-base-form',
   template: '<div></div>'
 })
-export abstract class BaseFormComponent{
+export abstract class BaseFormComponent implements OnInit{
 
   formulario!: FormGroup;
 
-  constructor() { }
+  ngOnInit(): void{    
+  }
 
   abstract submit():any;
 
@@ -38,11 +39,11 @@ export abstract class BaseFormComponent{
   }
 
   verificaValidTouched(campo: any){
-    return !this.formulario.get(campo)?.valid && (!!this.formulario.get(campo)?.touched || !!this.formulario.get(campo)?.dirty) 
+    return !this.formulario.get(campo)?.valid && (this.formulario.get(campo)?.touched || this.formulario.get(campo)?.dirty) 
   }
 
   verificaRequired(campo: any){
-    return !this.formulario.get(campo)?.hasError('required') && (!!this.formulario.get(campo)?.touched || !!this.formulario.get(campo)?.dirty) 
+    return this.formulario.get(campo)?.hasError('required') && (this.formulario.get(campo)?.touched || this.formulario.get(campo)?.dirty) 
   }
 
   verificaEmailInvalido(){

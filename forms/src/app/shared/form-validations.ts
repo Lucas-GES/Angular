@@ -2,15 +2,15 @@ import { AbstractControl, FormArray, FormControl, FormGroup, ValidatorFn, Valida
 
 export class FormValidations{
 
-    static requiredMinCheckbox(min: number = 1){
-        const validator: ValidatorFn = (formArray : AbstractControl) => {
-          if(formArray instanceof FormArray){ 
+    static requiredMinCheckbox(min = 1){
+        const validator = (formArray : AbstractControl) => {           
+          if(formArray instanceof FormArray){  
             const totalChecked = formArray.controls
               .map(v => v.value)
               .reduce((total, current) => current ? total + current : total, 0);
             return totalChecked >= min ? null : { required: true };
           }
-          throw new Error('formArray is not an instance of FormArray');
+          throw new Error('formArray is not an instance of FormArray')
         };
         return validator;
     }
@@ -51,7 +51,7 @@ export class FormValidations{
     }
 
     static getErrorMsg(fieldName: string, validatorName: string, validatorValue?: any){
-      const config:{[id: string]: string} = {
+      const config: any = {
         'required': `${fieldName} é obrigatório.`,
         'minlength': `${fieldName} precisa ter no mínimo ${validatorValue.requiredLength} caracteres.`,
         'maxlength': `${fieldName} precisa ter no máximo ${validatorValue.requiredLength} caracteres.`,
