@@ -2,11 +2,31 @@
   "cursos": [
     {
       "id": 1,
-      "name": "Angular"
+      "nome": "Angular"
     },
     {
-      "name": "Java",
+      "nome": "Java",
       "id": 2
+    },
+    {
+      "nome": "JavaScript",
+      "id": 3
+    },
+    {
+      "nome": "PHP",
+      "id": 4
+    },
+    {
+      "nome": "NodeJS",
+      "id": 5
+    },
+    {
+      "nome": "Arquitetura de Software",
+      "id": 6
+    },
+    {
+      "nome": "Material 5",
+      "id": 7
     }
   ]
 }
