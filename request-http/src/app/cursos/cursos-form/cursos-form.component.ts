@@ -37,31 +37,33 @@ export class CursosFormComponent implements OnInit {
     //   }
     // )
 
-    this.route.params
-    .pipe(
-      map((params: any) => params['id']),
-      switchMap(id => this.service.loadByID(id)),
-      // switchMap(cursos => obterAulas)
-    )
-    .subscribe(curso => this.updateForm(curso));
+    // this.route.params
+    // .pipe(
+    //   map((params: any) => params['id']),
+    //   switchMap(id => this.service.loadByID(id)),
+    //   // switchMap(cursos => obterAulas)
+    // )
+    // .subscribe(curso => this.updateForm(curso));
 
     // concatMap => ordem da requisição importa
     // mergeMap => ordem não importa
     // exhaustMap => casos de login
 
+    const curso = this.route.snapshot.data['curso'];
+
     this.form = this.fb.group({
-      id: [null],
-      nome: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]]
-    })
+      id: [curso.id],
+      nome: [curso.nome, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]]
+    });
 
   }
 
-  updateForm(curso: any){
-    this.form.patchValue({
-      id: curso.id,
-      nome: curso.nome
-    })
-  }
+  // updateForm(curso: any){
+  //   this.form.patchValue({
+  //     id: curso.id,
+  //     nome: curso.nome
+  //   })
+  // }
 
   onSubmit() {
     this.submitted = true;
