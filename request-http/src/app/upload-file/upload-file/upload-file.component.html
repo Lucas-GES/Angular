@@ -1,14 +1,15 @@
 <div style="margin-top: 10px;">
     <div class="custom-file">
         <input type="file" class="custom-file-input" id="customFile" (change)="onChange($event)" multiple>
-        <label for="customFile" class="custom-file-label" id="customFileLabel" >{{ namesFiles }}</label>
+        <label for="customFile" class="custom-file-label" id="customFileLabel">{{ namesFiles }}</label>
     </div>
     <div class="progress">
-        <div class="progress-bar" role="progressbar" style="width: 25%;" [style.width]="progress + '%'">{{ progress }}%</div>
+        <div class="progress-bar" role="progressbar" style="width: 25%;" [style.width]="progress + '%'">{{ progress }}%
+        </div>
     </div>
 </div>
 <div style="margin-top: 10px;">
-<button type="button" class="btn btn-primary" (click)="onUpload()" [disabled]="!files">
-Upload
-</button>
+    <button type="button" class="btn btn-primary" (click)="onUpload()" [disabled]="!files">
+        Upload
+    </button>
 </div>
