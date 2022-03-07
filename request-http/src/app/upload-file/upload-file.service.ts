@@ -53,8 +53,6 @@ export class UploadFileService {
         window.URL.revokeObjectURL(blob);
         link.remove();
       }, 100);
-
-      
     
   }
 }

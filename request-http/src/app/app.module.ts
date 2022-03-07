@@ -22,7 +22,7 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    SharedModule    
+    SharedModule   
   ],
   providers: [],
   bootstrap: [AppComponent]
