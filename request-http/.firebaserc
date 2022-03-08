@@ -1,4 +1,13 @@
 {
+  "targets": {
+    "angular-f3abb": {
+      "hosting": {
+        "request-http": [
+          "angular-f3abb"
+        ]
+      }
+    }
+  },
   "projects": {
     "default": "angular-f3abb"
   }
